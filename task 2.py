@@ -19,6 +19,7 @@ def file_write(data):
         for j in data[i[1]][1]:
             f.write(j)
         f.write('\n')
+    f.close()
 
 
 file = file_read()

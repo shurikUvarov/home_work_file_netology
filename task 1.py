@@ -1,8 +1,6 @@
-# -*- coding: UTF-8 -*-
-#cook_boock = open('recipes.txt','r+', encoding='utf-8')
 import re
 dishes = []
-def GetData(file)->dict:
+def GetData(file):
   recipes = {}
   dieshes = None
   ingredients = None
@@ -19,22 +17,27 @@ def GetData(file)->dict:
   return recipes
 cook_book = GetData('recipes.txt')
 
+
 def get_shop_list_by_dishes(dishes, person_count):
-  local_cook_book = GetData('recipes.txt')
+  cook_book = GetData('recipes.txt')
   shop_list = {}
-  for k in dishes:
-    if shop_list.get(local_cook_book[k][0]['ingredient_name']):
-      shop_list[local_cook_book[k][0]['ingredient_name']] = { 'measure' : local_cook_book[k][0]['measure'],
-                                                            'quantity':  shop_list[local_cook_book[k][0]['ingredient_name']]['quantity'] +
-                                                                         (int(local_cook_book[k][0]['quantity'])*person_count)}
+  for dish in dishes:
+    if dish in cook_book:
+      ingredients = cook_book[dish]
+      for ingredient in ingredients:
+        ingredient_name = ingredient['ingredient_name']
+        quantity = int(ingredient['quantity']) * person_count
+        measure = ingredient['measure']
+
+        if ingredient_name not in shop_list:
+          shop_list[ingredient_name] = {'measure': measure, 'quantity': quantity}
+        else:
+          shop_list[ingredient_name]['quantity'] += quantity
     else:
-      shop_list[local_cook_book[k][0]['ingredient_name']] = {'measure': local_cook_book[k][0]['measure'],
-                                                             'quantity': int(local_cook_book[k][0]['quantity']) * person_count}
+      print(f"Блюдо {dish} не найдено в книге рецептов.")
   return shop_list
 
 
-print(get_shop_list_by_dishes(['Запеченный картофель', 'Запеченный картофель'], 2))
-#for k in cook_book:
-#  dishes.append(k)
-#print(dishes)
+shop_list = get_shop_list_by_dishes(['Запеченный картофель', 'Запеченный картофель'], 2)
+print(shop_list)
 

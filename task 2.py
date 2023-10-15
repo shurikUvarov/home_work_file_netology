@@ -20,7 +20,7 @@ def file_read():
 #             f.write(j)
 #         f.write('\n')
 
-'''как должен выглядить хороший код'''
+'''как должен выглядеть хороший код'''
 def compile_files(path):
     data = {}
     for file_ in path:
